@@ -1,30 +1,41 @@
 import React from 'react';
-import { Link } from 'gatsby';
+import { Link, graphql, useStaticQuery } from 'gatsby';
 
-import headerStyles from './header.module.scss';
+import {
+  header,
+  title,
+  navList,
+  navItem,
+  activeNavItem,
+} from './header.module.scss';
 const Header = () => {
+  const data = useStaticQuery(graphql`
+    query {
+      site {
+        siteMetadata {
+          title
+        }
+      }
+    }
+  `);
   return (
-    <header className={headerStyles.header}>
+    <header className={header}>
       <h1>
-        <Link to="/" className={headerStyles.title}>
-          Murilo Arruda
+        <Link to="/" className={title}>
+          {data.site.siteMetadata.title}
         </Link>
       </h1>
       <nav>
-        <ul className={headerStyles.navList}>
+        <ul className={navList}>
           <li>
-            <Link
-              className={headerStyles.navItem}
-              activeClassName={headerStyles.activeNavItem}
-              to="/"
-            >
+            <Link className={navItem} activeClassName={activeNavItem} to="/">
               Home
             </Link>
           </li>
           <li>
             <Link
-              className={headerStyles.navItem}
-              activeClassName={headerStyles.activeNavItem}
+              className={navItem}
+              activeClassName={activeNavItem}
               to="/blog"
             >
               Blog
@@ -32,8 +43,8 @@ const Header = () => {
           </li>
           <li>
             <Link
-              className={headerStyles.navItem}
-              activeClassName={headerStyles.activeNavItem}
+              className={navItem}
+              activeClassName={activeNavItem}
               to="/about"
             >
               About
@@ -41,8 +52,8 @@ const Header = () => {
           </li>
           <li>
             <Link
-              className={headerStyles.navItem}
-              activeClassName={headerStyles.activeNavItem}
+              className={navItem}
+              activeClassName={activeNavItem}
               to="/contact"
             >
               Contact
