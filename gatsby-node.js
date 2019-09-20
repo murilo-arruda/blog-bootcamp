@@ -35,4 +35,28 @@ module.exports.createPages = async ({ graphql, actions }) => {
       },
     });
   });
+  // CREATE PAGES FROM CMS
+  const blogCmsTemplate = path.resolve('./src/templates/blogCms.js');
+  const cms = await graphql(`
+    query {
+      allContentfulBlogPost(sort: { fields: publishDate, order: DESC }) {
+        edges {
+          node {
+            title
+            slug
+            publishDate(formatString: "MMMM Do YYYY")
+          }
+        }
+      }
+    }
+  `);
+  cms.data.allContentfulBlogPost.edges.forEach(({ node }) => {
+    createPage({
+      component: blogCmsTemplate,
+      path: `/blog/${node.slug}`,
+      context: {
+        slug: node.slug,
+      },
+    });
+  });
 };
